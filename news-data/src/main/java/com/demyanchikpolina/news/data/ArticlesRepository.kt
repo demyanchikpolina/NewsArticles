@@ -9,7 +9,6 @@ import com.demyanchikpolina.newsapi.models.ResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -27,17 +26,8 @@ class ArticlesRepository(
     ): Flow<RequestResult<List<Article>>> {
 
         val cachedAllArticles = getAllFromDatabase()
-            .map { result ->
-                result.map { articleDbos ->
-                    articleDbos.map { it.toArticle()}
-                }
-            }
+
         val remoteArticles = getAllFromServer()
-            .map { result ->
-                result.map { response ->
-                    response.articles.map { it.toArticle()}
-                }
-            }
 
         return remoteArticles.combine(cachedAllArticles, mergeStrategy::merge)
             .flatMapLatest { result ->
@@ -56,7 +46,11 @@ class ArticlesRepository(
         TODO("Not implemented")
     }
 
-    private fun getAllFromDatabase(): Flow<RequestResult<List<ArticleDBO>>> {
+    fun fetchLatest(): Flow<RequestResult<List<Article>>> {
+        return getAllFromServer()
+    }
+
+    private fun getAllFromDatabase(): Flow<RequestResult<List<Article>>> {
         val dbRequest = database.articlesDao::getAll
             .asFlow()
             .map { RequestResult.Success(it) }
@@ -64,13 +58,18 @@ class ArticlesRepository(
         val start = flowOf<RequestResult<List<ArticleDBO>>>(RequestResult.InProgress())
 
         return merge(start, dbRequest)
+            .map { result ->
+                result.map { articleDbos ->
+                    articleDbos.map { it.toArticle()}
+                }
+            }
     }
 
-    private fun getAllFromServer(): Flow<RequestResult<ResponseDTO<ArticleDTO>>> {
+    private fun getAllFromServer(): Flow<RequestResult<List<Article>>> {
         val apiRequest = flow { emit(newsApi.everything()) }
             .onEach { result ->
                 if (result.isSuccess) {
-                    saveNetworkResponseToCache(checkNotNull(result.getOrThrow()).articles)
+                    saveNetworkResponseToCache(result.getOrThrow().articles)
                 }
             }
             .map { it.toRequestResult() }
@@ -78,6 +77,11 @@ class ArticlesRepository(
         val start = flowOf<RequestResult<ResponseDTO<ArticleDTO>>>(RequestResult.InProgress())
 
         return merge(apiRequest, start)
+            .map { result ->
+                result.map { response ->
+                    response.articles.map { it.toArticle()}
+                }
+            }
     }
 
     private suspend fun saveNetworkResponseToCache(data: List<ArticleDTO>) {
