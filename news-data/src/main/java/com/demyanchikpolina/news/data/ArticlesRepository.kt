@@ -6,6 +6,7 @@ import com.demyanchikpolina.news.data.models.Article
 import com.demyanchikpolina.newsapi.NewsApi
 import com.demyanchikpolina.newsapi.models.ArticleDTO
 import com.demyanchikpolina.newsapi.models.ResponseDTO
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 
-class ArticlesRepository(
+class ArticlesRepository @Inject constructor(
     private val newsApi: NewsApi,
     private val database: NewsDatabase,
 ) {

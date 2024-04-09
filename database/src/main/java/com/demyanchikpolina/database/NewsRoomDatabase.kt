@@ -22,7 +22,7 @@ internal abstract class NewsRoomDatabase : RoomDatabase() {
     abstract fun articlesDao(): ArticleDao
 }
 
-fun createDatabase(context: Context): NewsDatabase =
+fun NewsDatabase(context: Context): NewsDatabase =
     NewsDatabase(
         database = Room
             .databaseBuilder(
