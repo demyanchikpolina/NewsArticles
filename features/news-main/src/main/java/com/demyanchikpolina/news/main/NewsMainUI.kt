@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.demyanchikpolina.news.NewsSearchTheme
 
 @Composable
 fun NewsMainScreen() {
@@ -31,58 +31,50 @@ fun NewsMainScreen() {
 @Composable
 internal fun NewsMainScreen(viewModel: NewsMainViewModel) {
     val state by viewModel.state.collectAsState()
-    when(val currentState = state) {
-        is State.Success -> Articles(currentState.articles)
-        is State.Error -> ArticlesWithError(currentState.articles)
-        is State.Loading -> ArticlesUpdating(currentState.articles)
-        State.None -> NewsEmpty()
+
+    if (state != State.None) {
+        NewsMainContent(state)
     }
 }
 
-@Preview
 @Composable
-private fun ArticlesWithError(
-    @PreviewParameter(ArticlesPreviewProvider::class) articles: List<ArticleUI>?
-) {
+private fun NewsMainContent(state: State) {
     Column {
-        Box(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.error),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Error occurred during update",
-                color = MaterialTheme.colorScheme.onError
-            )
+        if (state is State.Error) {
+            ErrorMessage(state)
         }
-        articles?.let { Articles(articles = it) }
-    }
-}
-
-@Preview
-@Composable
-private fun ArticlesUpdating(
-    @PreviewParameter(ArticlesPreviewProvider::class) articles: List<ArticleUI>?
-) {
-    Column {
-        Box(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+        if (state is State.Loading) {
+            ProgressIndicator(state)
         }
-        articles?.let { Articles(articles = it) }
+        state.articles?.let { Articles(articles = it) }
     }
 }
 
 @Composable
-private fun NewsEmpty() {
-    Box(contentAlignment = Alignment.Center) {
-        Text(text = "No news.")
+private fun ProgressIndicator(state: State) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun ErrorMessage(state: State) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(NewsSearchTheme.colorScheme.error)
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Error occurred during update",
+            color = NewsSearchTheme.colorScheme.onError
+        )
     }
 }
 
@@ -106,14 +98,14 @@ private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = article.title,
-            style = MaterialTheme.typography.headlineMedium,
+            style = NewsSearchTheme.typography.headlineMedium,
             maxLines = 1
         )
         article.description?.let {
             Spacer(modifier = Modifier.size(8.dp))
             Text(
                 text = it,
-                style = MaterialTheme.typography.bodyMedium,
+                style = NewsSearchTheme.typography.bodyMedium,
                 maxLines = 3
             )
         }

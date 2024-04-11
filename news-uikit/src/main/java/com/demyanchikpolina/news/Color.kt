@@ -1,4 +1,4 @@
-package com.demyanchikpolina.newssearch.ui.theme
+package com.demyanchikpolina.news
 
 import androidx.compose.ui.graphics.Color
 

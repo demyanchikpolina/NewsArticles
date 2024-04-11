@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.demyanchikpolina.news.main.NewsMainScreen
-import com.demyanchikpolina.newssearch.ui.theme.NewsSearchTheme
+import com.demyanchikpolina.news.NewsSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
