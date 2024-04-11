@@ -1,15 +1,15 @@
 package com.demyanchikpolina.news.main
 
-sealed class State {
+internal sealed class State {
 
-    object None : State()
+    data object None : State()
 
-    class Loading(val articles: List<ArticleViewModel>? = null) : State()
+    class Loading(val articles: List<ArticleUI>? = null) : State()
 
     class Error(
-        val articles: List<ArticleViewModel>? = null,
+        val articles: List<ArticleUI>? = null,
         val error: String? = null
     ) : State()
 
-    class Success(val articles: List<ArticleViewModel>) : State()
+    class Success(val articles: List<ArticleUI>) : State()
 }

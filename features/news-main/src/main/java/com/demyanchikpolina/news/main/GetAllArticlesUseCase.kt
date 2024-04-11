@@ -8,19 +8,25 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetAllArticlesUseCase @Inject constructor(
+internal class GetAllArticlesUseCase @Inject constructor(
     private val articlesRepository: ArticlesRepository,
 ) {
 
-    operator fun invoke(): Flow<RequestResult<List<ArticleViewModel>>> {
-        return articlesRepository.getAll()
+    operator fun invoke(query: String): Flow<RequestResult<List<ArticleUI>>> {
+        return articlesRepository.getAll(query)
             .map { requestResult ->
                 requestResult.map { articles ->
-                    articles.map { it.toViewModel() }
+                    articles.map { it.toArticleUI() }
                 }
             }
     }
 }
 
-private fun Article.toViewModel(): ArticleViewModel =
-    ArticleViewModel("Not implemented")
+private fun Article.toArticleUI(): ArticleUI =
+    ArticleUI(
+        id = cacheId,
+        title = title,
+        description = description,
+        imageUrl = urlToImage,
+        url = url,
+    )

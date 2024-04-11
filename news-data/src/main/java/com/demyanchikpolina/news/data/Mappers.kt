@@ -5,10 +5,11 @@ import com.demyanchikpolina.database.models.SourceDBO
 import com.demyanchikpolina.news.data.models.Article
 import com.demyanchikpolina.news.data.models.Source
 import com.demyanchikpolina.newsapi.models.ArticleDTO
+import java.lang.Math.random
 
 internal fun ArticleDBO.toArticle(): Article =
     Article(
-        articleId = articleId,
+        cacheId = articleId,
         source = Source(
             sourceId = source.sourceId,
             name = source.name
@@ -23,9 +24,8 @@ internal fun ArticleDBO.toArticle(): Article =
     )
 
 internal fun ArticleDTO.toArticle(): Article =
-    TODO()
- /*   Article(
-        articleId = ,
+    Article(
+        cacheId = random().toLong(),
         source = Source(
             sourceId = source.id,
             name = source.name
@@ -37,21 +37,20 @@ internal fun ArticleDTO.toArticle(): Article =
         urlToImage,
         publishedAt,
         content
-    )*/
+    )
 
 internal fun ArticleDTO.toArticleDBO(): ArticleDBO =
-    TODO()
-//    ArticleDBO(
-//        articleId = ?,
-//        source = SourceDBO(
-//            sourceId = source.id,
-//            name = source.name
-//        ),
-//        author = author,
-//        title = title,
-//        description,
-//        url,
-//        urlToImage,
-//        publishedAt,
-//        content
-//    )
+    ArticleDBO(
+        articleId = random().toLong(),
+        source = SourceDBO(
+            sourceId = source.id,
+            name = source.name
+        ),
+        author = author,
+        title = title,
+        description,
+        url,
+        urlToImage,
+        publishedAt,
+        content
+    )

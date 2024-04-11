@@ -3,7 +3,7 @@ package com.demyanchikpolina.news.data.models
 import java.util.Date
 
 data class Article(
-    val articleId: Long,
+    val cacheId: Long,
     val source: Source,
     val author: String,
     val title: String,
@@ -15,6 +15,6 @@ data class Article(
 )
 
 data class Source(
-    val sourceId: String,
+    val sourceId: String?,
     val name: String,
 )

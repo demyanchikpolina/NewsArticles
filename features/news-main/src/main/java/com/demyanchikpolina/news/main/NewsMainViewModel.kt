@@ -2,7 +2,6 @@ package com.demyanchikpolina.news.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.demyanchikpolina.news.data.ArticlesRepository
 import com.demyanchikpolina.news.data.RequestResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +17,7 @@ internal class NewsMainViewModel @Inject constructor(
     //private val articlesRepository: ArticlesRepository,
 ) : ViewModel() {
 
-    val state: StateFlow<State> = getAllArticlesUseCase.get().invoke()
+    val state: StateFlow<State> = getAllArticlesUseCase.get().invoke(query = "android")
             .map { it.toState() }
             .stateIn(viewModelScope, SharingStarted.Lazily, State.None)
 
@@ -27,7 +26,7 @@ internal class NewsMainViewModel @Inject constructor(
     }
 }
 
-private fun RequestResult<List<ArticleViewModel>>.toState() : State =
+private fun RequestResult<List<ArticleUI>>.toState() : State =
     when(this) {
         is RequestResult.Error -> State.Error()
         is RequestResult.InProgress -> State.Loading(data)

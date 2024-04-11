@@ -20,6 +20,6 @@ data class ArticleDBO(
 )
 
 data class SourceDBO(
-    @ColumnInfo("sourceId") val sourceId: String,
+    @ColumnInfo("id") val sourceId: String?,
     @ColumnInfo("name") val name: String,
 )

@@ -8,7 +8,6 @@ import com.demyanchikpolina.newsapi.models.SortBy
 import com.demyanchikpolina.newsapi.utils.NewsApiKeyInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -20,12 +19,12 @@ import java.util.Date
 
 interface NewsApi {
 
-    @GET("/everything")
+    @GET("everything")
     suspend fun everything(
-        @Query("q") query: String? = null,
+        @Query("q") query: String = "",
         @Query("from") from: Date? = null,
         @Query("to") to: Date? = null,
-        @Query("language") languages: Array<Language>? = null,
+        @Query("language") languages: List<@JvmSuppressWildcards Language>? = null,
         @Query("sortBy") sortBy: SortBy = SortBy.PUBLISHED_AT,
         @Query("pageSize") @IntRange(from = 0, to = 100) pageSize: Int = 100,
         @Query("page") @IntRange(from = 1) page: Int = 1,
@@ -38,7 +37,6 @@ fun NewsApi(
         json: Json = Json
     ) : NewsApi = retrofit(baseUrl, apiKey, okHttpClient, json).create()
 
-    @OptIn(ExperimentalSerializationApi::class)
     private fun retrofit(
         baseUrl: String,
         apiKey: String,
