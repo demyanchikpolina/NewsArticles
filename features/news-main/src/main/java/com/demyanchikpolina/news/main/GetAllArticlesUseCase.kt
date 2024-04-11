@@ -25,7 +25,7 @@ internal class GetAllArticlesUseCase @Inject constructor(
 private fun Article.toArticleUI(): ArticleUI =
     ArticleUI(
         id = cacheId,
-        title = title,
+        title = title ?: "NO TITLE",
         description = description,
         imageUrl = urlToImage,
         url = url,

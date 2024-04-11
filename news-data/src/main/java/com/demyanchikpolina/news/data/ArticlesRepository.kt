@@ -19,9 +19,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
-import java.text.DateFormat
-import java.time.LocalDateTime
-import java.util.Calendar
 
 class ArticlesRepository @Inject constructor(
     private val newsApi: NewsApi,
@@ -51,8 +48,8 @@ class ArticlesRepository @Inject constructor(
             }
     }
 
-    suspend fun search(query: String? = null): Flow<Article> {
-        newsApi.everything()
+    suspend fun search(query: String): Flow<Article> {
+        newsApi.everything(query)
         TODO("Not implemented")
     }
 
@@ -63,13 +60,13 @@ class ArticlesRepository @Inject constructor(
     private fun getAllFromDatabase(): Flow<RequestResult<List<Article>>> {
         val dbRequest = database.articlesDao::getAll
             .asFlow()
-            .map { RequestResult.Success(it) }
+            .map<List<ArticleDBO>, RequestResult<List<ArticleDBO>>> { RequestResult.Success(it) }
             .catch {
-                RequestResult.Error<List<ArticleDBO>>(error = it)
                 logger.e(
                     tag = LOG_TAG,
                     message = "Error getting articles from DB. Cause = $it"
                 )
+                emit(RequestResult.Error(error = it))
             }
 
         val start = flowOf<RequestResult<List<ArticleDBO>>>(RequestResult.InProgress())

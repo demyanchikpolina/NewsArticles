@@ -109,12 +109,14 @@ private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article
             style = MaterialTheme.typography.headlineMedium,
             maxLines = 1
         )
-        Spacer(modifier = Modifier.size(8.dp))
-        Text(
-            text = article.description,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 3
-        )
+        article.description?.let {
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 3
+            )
+        }
     }
 }
 
