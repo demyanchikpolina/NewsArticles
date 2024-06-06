@@ -2,9 +2,9 @@ package com.demyanchikpolina.newssearch
 
 import android.content.Context
 import com.demyanchikpolina.database.NewsDatabase
-import com.demyanchikpolina.news.common.androidLogcatLogger
 import com.demyanchikpolina.news.common.AppDispatchers
 import com.demyanchikpolina.news.common.Logger
+import com.demyanchikpolina.news.common.androidLogcatLogger
 import com.demyanchikpolina.newsapi.NewsApi
 import dagger.Module
 import dagger.Provides

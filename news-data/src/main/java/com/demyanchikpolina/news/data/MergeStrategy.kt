@@ -12,26 +12,24 @@ interface MergeStrategy<E> {
 internal class RequestResultMergeStrategy<T : Any> : MergeStrategy<RequestResult<T>> {
 
     override fun merge(left: RequestResult<T>, right: RequestResult<T>): RequestResult<T> =
-        when {
-            left is InProgress && right is InProgress -> merge(left, right)
+        when (left) {
+            is InProgress -> when (right) {
+                is InProgress -> merge(left, right)
+                is Success -> merge(left, right)
+                is Error -> merge(left, right)
+            }
 
-            left is InProgress && right is Success -> merge(left, right)
+            is Success -> when (right) {
+                is Success -> merge(left, right)
+                is InProgress -> merge(left, right)
+                is Error -> merge(left, right)
+            }
 
-            left is InProgress && right is Error -> merge(left, right)
-
-            left is Success && right is Success -> merge(left, right)
-
-            left is Success && right is InProgress -> merge(left, right)
-
-            left is Success && right is Error -> merge(left, right)
-
-            left is Error && right is Success -> merge(left, right)
-
-            left is Error && right is InProgress -> merge(left, right)
-
-            left is Error && right is Error -> merge(left, right)
-
-            else -> error("Unimplemented branch left=$left & right=$right")
+            is Error -> when (right) {
+                is Success -> merge(left, right)
+                is InProgress -> merge(left, right)
+                is Error -> merge(left, right)
+            }
         }
 
     private fun merge(server: InProgress<T>, cache: InProgress<T>): RequestResult<T> =
