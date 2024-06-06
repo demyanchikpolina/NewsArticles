@@ -19,6 +19,7 @@ import java.util.Date
 
 interface NewsApi {
 
+    @Suppress("LongParameterList")
     @GET("everything")
     suspend fun everything(
         @Query("q") query: String = "",

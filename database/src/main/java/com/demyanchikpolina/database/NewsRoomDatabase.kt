@@ -30,4 +30,5 @@ fun NewsDatabase(context: Context): NewsDatabase =
                 NewsRoomDatabase::class.java,
                 "news"
             )
-            .build())
+            .build()
+    )

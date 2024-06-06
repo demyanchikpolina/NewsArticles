@@ -9,7 +9,7 @@ interface Logger {
     fun e(tag: String, message: String)
 }
 
-fun AndroidLogcatLogger() = object : Logger {
+fun androidLogcatLogger() = object : Logger {
 
     override fun d(tag: String, message: String) {
         Log.d(tag, message)

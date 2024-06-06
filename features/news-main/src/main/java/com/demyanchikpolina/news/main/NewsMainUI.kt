@@ -60,6 +60,7 @@ private fun NewsMainContent(state: State) {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 @Composable
 private fun ProgressIndicator(state: State) {
     Box(
@@ -72,6 +73,7 @@ private fun ProgressIndicator(state: State) {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 @Composable
 private fun ErrorMessage(state: State) {
     Box(
@@ -148,21 +150,24 @@ private class ArticlePreviewProvider : PreviewParameterProvider<ArticleUI> {
         ArticleUI(
             id = 1,
             title = "1 Use Hilt with other Jetpack libraries",
-            description = "1 Hilt includes extensions for providing classes from other Jetpack libraries supports the following Jetpack components.",
+            description = "1 Hilt includes extensions for providing classes from" +
+                    " other Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
         ArticleUI(
             id = 2,
             title = "2 Use Hilt with other Jetpack libraries",
-            description = "2 Hilt includes extensions for providing classes from other Jetpack libraries supports the following Jetpack components.",
+            description = "2 Hilt includes extensions for providing classes from" +
+                    " other Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
         ArticleUI(
             id = 3,
             title = "3 Use Hilt with other Jetpack libraries",
-            description = "3 Hilt includes extensions for providing classes from other Jetpack libraries supports the following Jetpack components.",
+            description = "3 Hilt includes extensions for providing classes from other" +
+                    " Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
