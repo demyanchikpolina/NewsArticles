@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,6 +36,7 @@ import com.demyanchikpolina.news.NewsSearchTheme
 fun NewsMainScreen() {
     NewsMainScreen(viewModel = viewModel())
 }
+
 @Composable
 internal fun NewsMainScreen(viewModel: NewsMainViewModel) {
     val state by viewModel.state.collectAsState()
@@ -95,7 +94,7 @@ private fun ErrorMessage(state: State) {
 private fun Articles(
     @PreviewParameter(ArticlesPreviewProvider::class) articles: List<ArticleUI>
 ) {
-    LazyColumn (contentPadding = PaddingValues(4.dp)) {
+    LazyColumn(contentPadding = PaddingValues(4.dp)) {
         items(articles) { article ->
             key(article.id) {
                 ArticleItem(article)
@@ -107,7 +106,7 @@ private fun Articles(
 @Preview
 @Composable
 private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article: ArticleUI) {
-    Row (modifier = Modifier.padding(bottom = 4.dp)) {
+    Row(modifier = Modifier.padding(bottom = 4.dp)) {
         article.imageUrl?.let { imageUrl ->
 
             var isImageVisible by remember { mutableStateOf(true) }
@@ -151,7 +150,7 @@ private class ArticlePreviewProvider : PreviewParameterProvider<ArticleUI> {
             id = 1,
             title = "1 Use Hilt with other Jetpack libraries",
             description = "1 Hilt includes extensions for providing classes from" +
-                    " other Jetpack libraries supports the following Jetpack components.",
+                " other Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
@@ -159,7 +158,7 @@ private class ArticlePreviewProvider : PreviewParameterProvider<ArticleUI> {
             id = 2,
             title = "2 Use Hilt with other Jetpack libraries",
             description = "2 Hilt includes extensions for providing classes from" +
-                    " other Jetpack libraries supports the following Jetpack components.",
+                " other Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
@@ -167,7 +166,7 @@ private class ArticlePreviewProvider : PreviewParameterProvider<ArticleUI> {
             id = 3,
             title = "3 Use Hilt with other Jetpack libraries",
             description = "3 Hilt includes extensions for providing classes from other" +
-                    " Jetpack libraries supports the following Jetpack components.",
+                " Jetpack libraries supports the following Jetpack components.",
             imageUrl = null,
             url = "",
         ),
