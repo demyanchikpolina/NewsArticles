@@ -63,10 +63,11 @@ private fun NewsMainContent(state: State) {
 @Composable
 private fun ProgressIndicator(state: State) {
     Box(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }
@@ -76,15 +77,16 @@ private fun ProgressIndicator(state: State) {
 @Composable
 private fun ErrorMessage(state: State) {
     Box(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .background(NewsSearchTheme.colorScheme.error)
             .padding(8.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = "Error occurred during update",
-            color = NewsSearchTheme.colorScheme.onError
+            color = NewsSearchTheme.colorScheme.onError,
         )
     }
 }
@@ -92,7 +94,7 @@ private fun ErrorMessage(state: State) {
 @Preview
 @Composable
 private fun Articles(
-    @PreviewParameter(ArticlesPreviewProvider::class) articles: List<ArticleUI>
+    @PreviewParameter(ArticlesPreviewProvider::class) articles: List<ArticleUI>,
 ) {
     LazyColumn(contentPadding = PaddingValues(4.dp)) {
         items(articles) { article ->
@@ -105,7 +107,9 @@ private fun Articles(
 
 @Preview
 @Composable
-private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article: ArticleUI) {
+private fun ArticleItem(
+    @PreviewParameter(ArticlePreviewProvider::class) article: ArticleUI,
+) {
     Row(modifier = Modifier.padding(bottom = 4.dp)) {
         article.imageUrl?.let { imageUrl ->
 
@@ -121,7 +125,7 @@ private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article
                     },
                     contentDescription = article.title,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(100.dp)
+                    modifier = Modifier.size(100.dp),
                 )
             }
         }
@@ -130,14 +134,14 @@ private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article
             Text(
                 text = article.title,
                 style = NewsSearchTheme.typography.headlineMedium,
-                maxLines = 1
+                maxLines = 1,
             )
             article.description?.let {
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = it,
                     style = NewsSearchTheme.typography.bodyMedium,
-                    maxLines = 3
+                    maxLines = 3,
                 )
             }
         }
@@ -145,36 +149,39 @@ private fun ArticleItem(@PreviewParameter(ArticlePreviewProvider::class) article
 }
 
 private class ArticlePreviewProvider : PreviewParameterProvider<ArticleUI> {
-    override val values = sequenceOf(
-        ArticleUI(
-            id = 1,
-            title = "1 Use Hilt with other Jetpack libraries",
-            description = "1 Hilt includes extensions for providing classes from" +
-                " other Jetpack libraries supports the following Jetpack components.",
-            imageUrl = null,
-            url = "",
-        ),
-        ArticleUI(
-            id = 2,
-            title = "2 Use Hilt with other Jetpack libraries",
-            description = "2 Hilt includes extensions for providing classes from" +
-                " other Jetpack libraries supports the following Jetpack components.",
-            imageUrl = null,
-            url = "",
-        ),
-        ArticleUI(
-            id = 3,
-            title = "3 Use Hilt with other Jetpack libraries",
-            description = "3 Hilt includes extensions for providing classes from other" +
-                " Jetpack libraries supports the following Jetpack components.",
-            imageUrl = null,
-            url = "",
-        ),
-    )
+    override val values =
+        sequenceOf(
+            ArticleUI(
+                id = 1,
+                title = "1 Use Hilt with other Jetpack libraries",
+                description =
+                "1 Hilt includes extensions for providing classes from" +
+                    " other Jetpack libraries supports the following Jetpack components.",
+                imageUrl = null,
+                url = "",
+            ),
+            ArticleUI(
+                id = 2,
+                title = "2 Use Hilt with other Jetpack libraries",
+                description =
+                "2 Hilt includes extensions for providing classes from" +
+                    " other Jetpack libraries supports the following Jetpack components.",
+                imageUrl = null,
+                url = "",
+            ),
+            ArticleUI(
+                id = 3,
+                title = "3 Use Hilt with other Jetpack libraries",
+                description =
+                "3 Hilt includes extensions for providing classes from other" +
+                    " Jetpack libraries supports the following Jetpack components.",
+                imageUrl = null,
+                url = "",
+            ),
+        )
 }
 
 private class ArticlesPreviewProvider : PreviewParameterProvider<List<ArticleUI>> {
-
     private val articleProvider = ArticlePreviewProvider()
 
     override val values = sequenceOf(articleProvider.values.toList())
