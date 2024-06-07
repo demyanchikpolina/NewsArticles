@@ -1,0 +1,10 @@
+name: Code quality check
+run-name: ${{ github.actor }} is checking code quality with linter
+on: [push]
+jobs:
+    Detekt:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "Run detekt on ${{ github.ref }} of ${{ github.repository }} repository."
+            - run: .gradlew detekt
+
