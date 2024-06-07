@@ -642,8 +642,6 @@ style:
     active: true
   ModifierOrder:
     active: true
-  MultilineExpressionWrapping:
-      indentSize: 4
   MultilineLambdaItParameter:
     active: false
   MultilineRawStringIndentation:

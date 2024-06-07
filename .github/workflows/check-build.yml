@@ -6,4 +6,4 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - run: echo "Run detekt on ${{ github.ref }} of ${{ github.repository }} repository."
-            - run: .gradlew detekt
+            - run: ./gradlew detekt
