@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    //id("com.google.devtools.ksp")
+    // id("com.google.devtools.ksp")
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kapt)
@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.demyanchikpolina.newssearch"
-    compileSdk = 34
+    compileSdk = libs.versions.androidSdk.compile.get().toInt()
 
     defaultConfig {
         applicationId = "com.demyanchikpolina.newssearch"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = libs.versions.androidSdk.min.get().toInt()
+        targetSdk = libs.versions.androidSdk.target.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -24,15 +24,30 @@ android {
 
         buildConfigField("String", "NEWS_API_KEY", "\"184a80217bca4d1aa8b4061a00a64798\"")
         buildConfigField("String", "NEWS_API_BASE_URL", "\"https://newsapi.org/v2/\"")
+
+        resourceConfigurations += setOf("ru", "en")
+
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += setOf("armeabi-v7a", "arm64-v8a")
+        }
+
+        signingConfigs {
+            create("release") {
+                storeFile = File(rootDir, "newsapp.keystore")
+                storePassword = "12345678"
+                keyAlias = "p.demyanchik"
+                keyPassword = "12345678"
+            }
+        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            signingConfig = signingConfigs["release"]
+            isMinifyEnabled = true
+            proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFile(file("proguard/"))
         }
     }
     compileOptions {
@@ -52,6 +67,14 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/okhttp3/internal/publicsuffix/NOTICE"
+            excludes += "/kotlin/**"
+            excludes += "/META-INF/com/android/build/gradle/app-metadata.properties"
+            excludes += "/META-INF/androidx.*.version"
+            excludes += "/META-INF/com.google.*.version"
+            excludes += "/META-INF/kotlinx_*.version"
+            excludes += "DebugProbesKt.bin"
+            excludes += "kotlin-tooling-metadata.json"
         }
     }
 }
@@ -67,12 +90,12 @@ dependencies {
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
-    //implementation(libs.kotlinx.serialization.json)
+    // implementation(libs.kotlinx.serialization.json)
 
-    implementation(project(":news-data"))
-    implementation(project(":newsapi"))
-    implementation(project(":database"))
-    implementation(project(":news-common"))
-    implementation(project(":news-uikit"))
-    implementation(project(":features:news-main"))
+    implementation(projects.newsData)
+    implementation(projects.newsapi)
+    implementation(projects.database)
+    implementation(projects.newsCommon)
+    implementation(projects.newsUikit)
+    implementation(projects.features.newsMain.ui)
 }

@@ -1,14 +1,20 @@
+import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+kotlin {
+    explicitApi = ExplicitApiMode.Strict
+}
+
 android {
     namespace = "com.demyanchikpolina.news.common"
-    compileSdk = 34
+    compileSdk = libs.versions.androidSdk.compile.get().toInt()
 
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.androidSdk.min.get().toInt()
 
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -26,4 +32,5 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.collections.immutable)
 }

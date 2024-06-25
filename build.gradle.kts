@@ -15,11 +15,12 @@ plugins {
     alias(libs.plugins.detekt) apply false
 }
 
+// TODO Replace Detekt Gradle with terminal launch
 allprojects.onEach { project ->
     project.afterEvaluate {
         with(project.plugins) {
-            if (hasPlugin(libs.plugins.jetbrains.kotlin.android.get().pluginId)
-                || hasPlugin(libs.plugins.jetbrains.kotlin.jvm.get().pluginId)
+            if (hasPlugin(libs.plugins.jetbrains.kotlin.android.get().pluginId) ||
+                hasPlugin(libs.plugins.jetbrains.kotlin.jvm.get().pluginId)
             ) {
                 apply(libs.plugins.detekt.get().pluginId)
 
@@ -29,7 +30,7 @@ allprojects.onEach { project ->
 
                 project.dependencies.add(
                     "detektPlugins",
-                    libs.detekt.formatting.get().toString()
+                    libs.detekt.formatting.get().toString(),
                 )
             }
         }

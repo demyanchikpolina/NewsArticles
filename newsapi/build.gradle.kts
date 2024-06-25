@@ -1,7 +1,7 @@
 plugins {
-    id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kapt)
 }
 
 java {
@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.retrofit.adapters.result)
     api(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+    kapt(libs.retrofit.response.type.keeper)
 }

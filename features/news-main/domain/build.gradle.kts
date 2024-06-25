@@ -1,9 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.kapt)
 }
 
 kotlin {
@@ -11,13 +12,12 @@ kotlin {
 }
 
 android {
-    namespace = "com.demyanchikpolina.news.data"
+    namespace = "com.demyanchikpolina.news.main"
     compileSdk = libs.versions.androidSdk.compile.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.androidSdk.min.get().toInt()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -31,22 +31,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    compileOnly(libs.androidx.compose.runtime)
+    api(libs.kotlinx.collections.immutable)
+
     implementation(libs.kotlinx.coroutines.android)
 
-    implementation(projects.database)
-    implementation(projects.newsapi)
-    implementation(projects.newsCommon)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
 
-    implementation(libs.jakarta.inject)
+    api(projects.newsData)
 }
